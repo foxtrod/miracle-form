@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+html {
+    height: 100%;
+    background: linear-gradient(#5A4C42, #564D60);
+}
+
+body {
+    background: none;
+    font-family: fantasy;
+}
+
+#miracleForm {
+    width: 300px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+#miracleForm fieldset {
+    background: #ffffff;
+}
+
+#progressList {
+    counter-reset: step;
+}
+
+#progressList li {
+    list-style-type: none;
+    color: #2e92bf;
+    text-transform: uppercase;
+    font-size: 9px;
+    width: 33.33%;
+    float: left;
+    position: relative;
+}
+
+#progressList li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 20px;
+    line-height: 20px;
+    display: block;
+    font-size: 10px;
+    color: #333;
+    background: #2e92bf;
+    border-radius: 3px;
+    margin: 0 auto 5px auto;
+}
+
+#progressList li:first-child:after {
+    content: none;
+}
+
+#progressList li.active:before {
+    background: #05BF3A;
+    color: black;
+}
+
+#miracleForm fieldset:not(:first-of-type) {
+    display: none;
+}
+
+#miracleForm input, #miracleForm textarea {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2C3E50;
+}
+
+
+
+
+
