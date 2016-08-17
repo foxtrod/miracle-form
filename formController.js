@@ -5,72 +5,112 @@ $(document).ready(function (event) {
 
 
             var parent = this.parent();
-
             parent.find('.error').remove();
 
-            parent.toggleClass("has-success", isValidInput).toggleClass("has-error", !isValidInput);
-
-            if (!isValidInput) {
+            if (isValidInput) {
+                parent.toggleClass("has-success", isValidInput).toggleClass("has-error", !isValidInput);
+                return true;
+            } else {
                 parent.append("<h4 style='color: red' class='text-center error'>" + textOfError + "</h3>");
+                return false;
             }
 
-            return this;
+
         };
     })(jQuery);
 
-    function isEmail(email) {
-        var filter = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
-        return filter.test(email);
-    }
 
-    $('#inputPassword').on('input', function () {
-        $(this).toggleError($(this).val().trim().length != 0, 'enter correct password');
-    });
+    //(function ($) {
+    //    $.fn.validationPass = function () {
+    //        var s = '#inputPassword';
+    //        return ($(s).val() == $('#inputConfirmPassword').val() && $(s).val().length != 0);
+    //    }
+    //})(jQuery);
+    //
+    //(function ($) {
+    //    $.fn.validationEmail = function (email) {
+    //        //$('#inputEmail').toggleError(isEmail(email).val(), "input correct email address");
+    //        return isEmail(email);
+    //    }
+    //})(jQuery);
+    //
+    //(function ($) {
+    //    $.fn.validationSocials = function (social) {
+    //        return ($(social).is("a"));
+    //    }
+    //})(jQuery);
 
-    $('#inputEmail').on('input', function () {
-        $(this).toggleError(isEmail($('#inputEmail').val()), "input correct email address");
+
+    //$('#inputEmail').on('input', function () {
+    //    $(this).toggleError(isEmail($('#inputEmail').val()), "input correct email address");
+    //});
+    //
+    //$('#inputPassword').on('input', function () {
+    //    $(this).toggleError($(this).val().trim().length != 0, 'enter correct password');
+    //});
+    //$('#inputConfirmPassword').on('input', function () {
+    //    $(this).toggleError($(this).val().trim().length != 0, "Passwords are not matching");
+    //});
+
+    //$('#miracleForm').find("#socials :input").on('input', function () {
+    //    $(this).toggleError($(this).is("a"), "this must be a link")
+    //});
+
+    //function isEmail(email) {
+    //    var filter = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+    //    return filter.test(email);
+    //}
+
+
+    $("#miracleForm").validate({
+        rules: {
+            inputEmail: {
+                required: true,
+                email: true
+            },
+            inputPassword: {
+                required: true
+            },
+            inputConfirmPassword: {
+                equalTo: "#inputPassword"
+            }
+        },
+        messages: {
+            inputEmail: "Please enter correct email",
+            inputPassword: "Enter correct password",
+            inputConfirmPassword: "Passwords not matching"
+        }
     });
 
     var currentForm;
     var nextForm;
     var prevForm;
 
-
     $(".next-button").on('click', function () {
-        currentForm = $(this).parent();
-        nextForm = $(this).parent().next();
+        if ($('#miracleForm').valid()) {
+            currentForm = $(this).parent();
+            nextForm = $(this).parent().next();
 
-        $('#progressList').find('li').eq($('fieldset').index(nextForm)).addClass('active');
-        nextForm.show();
+            $('#progressList').find('li').eq($('fieldset').index(nextForm)).addClass('active');
+
+            nextForm.show(200);
+            currentForm.hide(400);
+
+        }
 
 
     });
 
-    $("#miracleForm :input").submit(function () {
-        console.log($('#miracleForm').serialize());
+    $('.previous-button').on('click', function () {
+        currentForm = $(this).parent();
+        prevForm = $(this).parent().prev();
+
+        $('#progressList').find('li').eq($('fieldset').index(currentForm)).removeClass('active');
+
+        prevForm.show(200);
+        currentForm.hide(400);
     });
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

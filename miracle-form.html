@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <script src="jquery-3.1.0.js"></script>
+    <script src="jquery.validate.js"></script>
     <link rel="stylesheet" href="bootstrap.min.css"/>
     <link rel="stylesheet" href="form.css"/>
 
@@ -19,40 +20,44 @@
         <li>Personal Details</li>
     </ul>
 
-    <fieldset style="border: solid">
+    <fieldset style="border: solid" id="signIn">
         <h2 class="form-title">CREATE YOUR ACCOUNT</h2>
-
         <h3 class="form-subtitle">This is step 1</h3>
 
-        <div id="styleEmail">
-            <input type="email" id="inputEmail" placeholder="Email" required/>
+        <div class="form-group">
+            <input name="inputEmail" type="email" id="inputEmail" placeholder="Email"/>
         </div>
-        <input type="password" id="inputPassword" placeholder="Password" required/>
+        <div class="form-group">
+            <input name="inputPassword" type="password" id="inputPassword" placeholder="Password"/>
+        </div>
+        <div class="form-group">
+            <input name="inputConfirmPassword" type="password" id="inputConfirmPassword" placeholder="Confirm Password"/>
+        </div>
 
-        <div>
-            <input type="password" id="inputConfirmPassword" placeholder="Confirm Password" required/>
-        </div>
-        <input type="button" value="Next" class="next-button"/>
+        <input type="submit" value="Next" class="next-button button"/>
     </fieldset>
 
-    <fieldset style="border: solid">
+    <fieldset style="border: solid" id="socials">
         <h2 class="form-title">SOCIAL PROFILES</h2>
-
         <h3 class="form-subtitle">Your presence on the social network</h3>
-        <input type="text" id="inputTwitter" placeholder="Twitter" required/>
-        <input type="tel" id="inputFacebook" placeholder="Facebook" required/>
-        <input type="text" id="inputGooglePlus" placeholder="Google Plus" required/>
+
+        <input type="url" id="inputTwitter" placeholder="Twitter" required/>
+        <input type="url" id="inputFacebook" placeholder="Facebook" required/>
+        <input type="url" id="inputGooglePlus" placeholder="Google Plus" required/>
+
         <input type="button" class="previous-button" value="Previous">
-        <input type="button" class="next-button" value="Next"/>
+        <input type="submit" class="next-button" value="Next"/>
     </fieldset>
 
-    <fieldset style="border: solid">
-        <h2 class="form-title">Personal Details</h2>
+    <fieldset style="border: solid" id="info">
+        <h2 class="form-title">PERSONAL DETAILS</h2>
         <h4 class="form-subtitle">We will never sell it</h4>
+
         <input type="text" id="inputFirstName" placeholder="First Name" required/>
         <input type="text" id="inputLastName" placeholder="Last Name" required/>
-        <input type="number" id="inputPhone" placeholder="Phone" required/>
+        <input type="text" id="inputPhone" placeholder="Phone" required/>
         <textarea name="" id="address" placeholder="Address"></textarea>
+
         <input type="button" class="previous-button" value="Previous">
         <input type="submit" class="submit-button" value="Submit"/>
     </fieldset>
