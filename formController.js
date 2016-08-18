@@ -62,32 +62,46 @@ $(document).ready(function (event) {
     //}
 
 
-    $("#miracleForm").validate({
-        rules: {
-            inputEmail: {
-                required: true,
-                email: true
-            },
-            inputPassword: {
-                required: true
-            },
-            inputConfirmPassword: {
-                equalTo: "#inputPassword"
-            }
-        },
-        messages: {
-            inputEmail: "Please enter correct email",
-            inputPassword: "Enter correct password",
-            inputConfirmPassword: "Passwords not matching"
-        }
-    });
+
 
     var currentForm;
     var nextForm;
     var prevForm;
 
     $(".next-button").on('click', function () {
-        if ($('#miracleForm').valid()) {
+
+        var miracleForm = $("#miracleForm");
+
+        miracleForm.validate({
+            rules: {
+                inputEmail: {
+                    required: true,
+                    email: true
+                },
+                inputPassword: {
+                    required: true
+                },
+                inputConfirmPassword: {
+                    equalTo: "#inputPassword"
+                },
+                social: {
+                    required: true,
+                    url: true
+                },
+                fullName: {
+                    required: true
+                }
+            },
+            messages: {
+                inputEmail: "Please enter correct email",
+                inputPassword: "Enter correct password",
+                inputConfirmPassword: "Passwords not matching",
+                social: "Enter correct url",
+                fullName: "Enter your name ples"
+            }
+        });
+
+        if (miracleForm.valid() == true) {
             currentForm = $(this).parent();
             nextForm = $(this).parent().next();
 
@@ -98,18 +112,20 @@ $(document).ready(function (event) {
 
         }
 
+        $('.previous-button').on('click', function () {
+            currentForm = $(this).parent();
+            prevForm = $(this).parent().prev();
+
+            $('#progressList').find('li').eq($('fieldset').index(currentForm)).removeClass('active');
+
+            prevForm.show(200);
+            currentForm.hide(400);
+
+            
+        });
 
     });
 
-    $('.previous-button').on('click', function () {
-        currentForm = $(this).parent();
-        prevForm = $(this).parent().prev();
-
-        $('#progressList').find('li').eq($('fieldset').index(currentForm)).removeClass('active');
-
-        prevForm.show(200);
-        currentForm.hide(400);
-    });
 
 });
 
