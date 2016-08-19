@@ -3,7 +3,6 @@ $(document).ready(function (event) {
     (function ($) {
         $.fn.toggleError = function (isValidInput, textOfError) {
 
-
             var parent = this.parent();
             parent.find('.error').remove();
 
@@ -20,48 +19,52 @@ $(document).ready(function (event) {
     })(jQuery);
 
 
-    //(function ($) {
-    //    $.fn.validationPass = function () {
-    //        var s = '#inputPassword';
-    //        return ($(s).val() == $('#inputConfirmPassword').val() && $(s).val().length != 0);
-    //    }
-    //})(jQuery);
-    //
-    //(function ($) {
-    //    $.fn.validationEmail = function (email) {
-    //        //$('#inputEmail').toggleError(isEmail(email).val(), "input correct email address");
-    //        return isEmail(email);
-    //    }
-    //})(jQuery);
-    //
-    //(function ($) {
-    //    $.fn.validationSocials = function (social) {
-    //        return ($(social).is("a"));
-    //    }
-    //})(jQuery);
+    $('#inputEmail').on('input', function () {
+        $(this).toggleError(isValidEmail($(this).val()), "input correct email address");
+    });
+
+    $('#inputPassword').on('input', function () {
+        $(this).toggleError($(this).val().trim().length != 0, 'enter correct password');
+    });
+    $('#inputConfirmPassword').on('input', function () {
+        $(this).toggleError($(this).val().trim().length != 0, "Passwords are not matching");
+    });
+
+    $('#miracleForm').find("#socials").on('input', function () {
+        $(this).toggleError(isValidUrl($(this).val()), "this must be a link")
+    });
+
+    function isValidEmail(email) {
+        var filter = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+        return filter.test(email);
+    }
+
+    function isValidUrl(url) {
+        var filter = /^http(s)?:\/\/(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+        return filter.test(url);
+    }
 
 
-    //$('#inputEmail').on('input', function () {
-    //    $(this).toggleError(isEmail($('#inputEmail').val()), "input correct email address");
-    //});
-    //
-    //$('#inputPassword').on('input', function () {
-    //    $(this).toggleError($(this).val().trim().length != 0, 'enter correct password');
-    //});
-    //$('#inputConfirmPassword').on('input', function () {
-    //    $(this).toggleError($(this).val().trim().length != 0, "Passwords are not matching");
-    //});
+    function validateForm(input) {
+        var inputEmail = $("#inputEmail");
+        var inputPassword = $("#inputPassword");
+        var inputConfirmPassword = $("#inputConfirmPassword");
+        var socials = $("#socials");
+        var firstName = $("#inputFirstName");
 
-    //$('#miracleForm').find("#socials :input").on('input', function () {
-    //    $(this).toggleError($(this).is("a"), "this must be a link")
-    //});
+        if (input.val() == inputEmail.val()) {
+            return inputEmail.toggleError(isValidEmail(inputEmail.val()), "input correct email");
+        } else if (input.val() == inputPassword.val()) {
+            return inputPassword.toggleError(inputPassword.val().trim().length != 0, 'enter correct password');
+        } else if (input.val() == inputConfirmPassword.val()) {
+            return inputConfirmPassword.toggleError(inputConfirmPassword.val() == inputPassword.val(), "passwords are not matching");
+        } else if (input.val() == socials.val()) {
+            return socials.toggleError(isValidUrl(socials.val()), "this must be a link")
+        } else if (input.val() == firstName.val()) {
 
-    //function isEmail(email) {
-    //    var filter = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
-    //    return filter.test(email);
-    //}
+        }
 
-
+    }
 
 
     var currentForm;
@@ -72,45 +75,24 @@ $(document).ready(function (event) {
 
         var miracleForm = $("#miracleForm");
 
-        miracleForm.validate({
-            rules: {
-                inputEmail: {
-                    required: true,
-                    email: true
-                },
-                inputPassword: {
-                    required: true
-                },
-                inputConfirmPassword: {
-                    equalTo: "#inputPassword"
-                },
-                social: {
-                    required: true,
-                    url: true
-                },
-                fullName: {
-                    required: true
-                }
-            },
-            messages: {
-                inputEmail: "Please enter correct email",
-                inputPassword: "Enter correct password",
-                inputConfirmPassword: "Passwords not matching",
-                social: "Enter correct url",
-                fullName: "Enter your name ples"
-            }
-        });
+        currentForm = $(this).parent();
+        nextForm = $(this).parent().next();
 
-        if (miracleForm.valid() == true) {
-            currentForm = $(this).parent();
-            nextForm = $(this).parent().next();
+        var inputs = $('form').find(':input:not(:hidden):not(:button):not(:submit)');
 
+        for (var i = 0; i < inputs.length; i++) {
+            var boolshiet = validateForm($(inputs[i]));
+            console.log(boolshiet);
+        }
+        if (boolshiet == true) {
             $('#progressList').find('li').eq($('fieldset').index(nextForm)).addClass('active');
 
             nextForm.show(200);
             currentForm.hide(400);
-
         }
+
+
+
 
         $('.previous-button').on('click', function () {
             currentForm = $(this).parent();
@@ -121,7 +103,7 @@ $(document).ready(function (event) {
             prevForm.show(200);
             currentForm.hide(400);
 
-            
+
         });
 
     });
